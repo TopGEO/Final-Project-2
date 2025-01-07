@@ -5,71 +5,81 @@ import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 
 public class BaseTest {
     public SoftAssert sfa = new SoftAssert();
+    public RemoteWebDriver driver;
+    public static String userName, accessKey;
+    public static Map<String, Object> browserStackYamlMap;
+    public static final String USER_DIR = "user.dir";
 
-    // we will use BeforeMethod and AfterMethod (its required in homework)
-
-    @BeforeMethod(alwaysRun = true) // this tells TestNG that "even if im filtering test methods by group, run this @BeforeMethod anyway"
-    public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu", "--window-size=1366,728");
-        WebDriverRunner.setWebDriver(new ChromeDriver(options));
-        Configuration.browserCapabilities = options;
-        Configuration.browser = "chrome";
-        WebDriverRunner.getWebDriver().manage().window().maximize();
-        Configuration.timeout = 10000;
+    public BaseTest() {
+        File file = new File(getUserDir() + "/browserstack.yml");
+        this.browserStackYamlMap = convertYamlFileToMap(file, new HashMap<>());
+        userName = System.getenv("BROWSERSTACK_USERNAME") != null ? System.getenv("BROWSERSTACK_USERNAME") : (String) browserStackYamlMap.get("userName");
+        accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY") != null ? System.getenv("BROWSERSTACK_ACCESS_KEY") : (String) browserStackYamlMap.get("accessKey");
     }
 
-//    @BeforeMethod
-//    public void setUp() throws MalformedURLException {
-//        // --- BROWSERSTACK CREDENTIALS ---
-//        String userName = System.getenv("topgeo_o2IE4g");  // or put them in a config file
-//        String accessKey = System.getenv("Lqhztdz9Fyb9rsq39G7p");
-//
-//        // Create your desired capabilities for cross-browser
-//        MutableCapabilities browserOptions = new MutableCapabilities();
-//        browserOptions.setCapability("browserName", "Chrome");
-//        browserOptions.setCapability("browserVersion", "latest");
-//
-//        // Build the 'bstack:options' for advanced config
-//        Map<String, Object> bstackOptions = new HashMap<>();
-//        bstackOptions.put("os", "Windows");
-//        bstackOptions.put("osVersion", "11");
-//        bstackOptions.put("sessionName", "My Project Test Session"); // name your test session
-//        bstackOptions.put("local", "false");                        // or true if you are testing local URLs
-//        // You can add more advanced capabilities here (resolution, debug, network logs, etc.)
-//
-//        browserOptions.setCapability("bstack:options", bstackOptions);
-//
-//        // --- SELENIDE CONFIG ---
-//        Configuration.browserCapabilities = browserOptions;
-//        Configuration.remote = "https://" + userName + ":" + accessKey + "@hub.browserstack.com/wd/hub";
-//        Configuration.browser = "chrome";  // not used in local sense, but sets the 'browser' variable
+    // we will use BeforeMethod and AfterMethod (its required in homework)
+    @BeforeMethod(alwaysRun = true)
+    public void setUp() throws Exception {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        HashMap<String, String> bstackOptions = new HashMap<>();
+        bstackOptions.put("source", "selenide:sample-master:v1.2");
+        bstackOptions.put("resolution", "1920x1080");
+        capabilities.setCapability("bstack:options", bstackOptions);
+        driver = new RemoteWebDriver(new URL(String.format("https://%s:%s@hub-cloud.browserstack.com/wd/hub", userName, accessKey)), capabilities);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebDriverRunner.setWebDriver(driver);
+    }
+
+    // local testing if needed
+//    @BeforeMethod(alwaysRun = true) // this tells TestNG that "even if im filtering test methods by group, run this @BeforeMethod anyway"
+//    public void setUp() {
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--headless", "--disable-gpu", "--window-size=1366,728");
+//        WebDriverRunner.setWebDriver(new ChromeDriver(options));
+//        Configuration.browserCapabilities = options;
+//        Configuration.browser = "chrome";
+//        WebDriverRunner.getWebDriver().manage().window().maximize();
 //        Configuration.timeout = 10000;
-//        Configuration.browserSize = "1920x1080";
-//
-//        // we can also do it manually, if we wish to.
-//        // WebDriver driver = new RemoteWebDriver(
-//        //      new URL("https://" + userName + ":" + accessKey + "@hub.browserstack.com/wd/hub"),
-//        //      browserOptions
-//        // );
-//        // WebDriverRunner.setWebDriver(driver);
 //    }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        getWebDriver().quit();
+        WebDriverRunner.getWebDriver().quit();
+    }
+
+    private String getUserDir() {
+        return System.getProperty(USER_DIR);
+    }
+
+    private Map<String, Object> convertYamlFileToMap(File yamlFile, Map<String, Object> map) {
+        try {
+            InputStream inputStream = Files.newInputStream(yamlFile.toPath());
+            Yaml yaml = new Yaml();
+            Map<String, Object> config = yaml.load(inputStream);
+            map.putAll(config);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Malformed browserstack.yml file - %s.", e));
+        }
+        return map;
     }
 
     @AfterClass(alwaysRun = true) // after class is needed, since testng.xml's filtering ignores if its AfterSuite
