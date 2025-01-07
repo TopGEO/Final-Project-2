@@ -1,4 +1,4 @@
-package ge.tbc.testautomation.data;
+package ge.tbc.testautomation.data; // creating conflict 1
 
 public class LoginConstants {
     public static String Login_URL = "https://saucedemo.com";
