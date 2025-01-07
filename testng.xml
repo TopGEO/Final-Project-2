@@ -1,0 +1,28 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="TBCAutomationSuite" parallel="false">
+
+    <test name="SwoopRegressionTests">
+        <groups>
+            <run>
+                <!-- we want to run the SwoopRegression group -->
+                <include name="SwoopRegression" />
+            </run>
+        </groups>
+        <classes>
+            <class name="ge.tbc.testautomation.OfferTests" />
+        </classes>
+    </test>
+
+    <test name="SauceDemoLoginTests">
+        <groups>
+            <run>
+                <!-- we want to run the SauceDemoLogin group -->
+                <include name="SauceDemoLogin" />
+            </run>
+        </groups>
+        <classes>
+            <class name="ge.tbc.testautomation.LoginTests" />
+        </classes>
+    </test>
+
+</suite>

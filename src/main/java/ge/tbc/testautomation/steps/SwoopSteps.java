@@ -86,10 +86,13 @@ public class SwoopSteps {
 
     @Step("Validating if Back and Next buttons are working correctly")
     public SwoopSteps validateBackAndNextButtons() {
+        String prevPageNumber = swoopPages.activePageNumber.getText();
         // We consider that restaurant's products always have at least 3 different page, normally 4.
         swoopPages.productsPage2.click(); // To ensure it will have left arrow enabled
 
-        sleep(100); // sometime currentPageNumber will get old meaning and sometime it will be same, so to ensure there wont be any bug, lets sleep for 100ms
+        // sometime currentPageNumber will get old meaning and sometime it will be same, so to ensure there wont be a bug, without sleep()
+        swoopPages.activePageNumber.shouldNotHave(Condition.text(prevPageNumber));
+
         int currentPageNumber = Integer.parseInt(swoopPages.activePageNumber.getText());
 
 
@@ -158,8 +161,6 @@ public class SwoopSteps {
 
         int minRange = 2, maxRange = 15; // For our case
         List<String> failedProducts = new ArrayList<>();
-
-        sleep(100); // sometime totalPageNumber will get old meaning and sometime it will be same, so to ensure there wont be any bug, lets sleep for 100ms
 
         int currentPageNumber = Integer.parseInt(swoopPages.activePageNumber.getText());
         int totalPageNumber = Integer.parseInt(swoopPages.totalPagesNumber.getText());

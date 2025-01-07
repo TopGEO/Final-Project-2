@@ -50,6 +50,12 @@ public class GuestCountParser {
     }
 
     /**
+     *      <<<<<<warning>>>>>>
+     *      i have tested on all product of swoop and it worked, because products'
+     *      names are in same style/format, but if totally different thing will detect,
+     *      there can be occurred some errors, will need to rewrite some parts.
+     *      <<<<<<///////>>>>>>
+
        in parseChunkTwoPass we use two-pass approach:
        we are looking for compound patterns (dash/plus/slash). If found, capture them,
        and we ignore any single integers in the same chunk.
@@ -62,12 +68,6 @@ public class GuestCountParser {
        "4/6 სეთი" goes to [4,6]
         "15-17" goes to [15,16,17]
         "25" goes to [25] (only if no dash/plus/slash pattern is found)
-
-     <<<<<<warning>>>>>>
-     i have tested on all product of swoop and it worked, because products'
-     names are in same styles, but if totally different thing will detect,
-     there can be occured some errors, will need to rewrite some partsl
-     <<<<<<///////>>>>>>
      */
     private static List<Integer> parseChunkTwoPass(String chunk) {
         List<Integer> results = new ArrayList<>();
@@ -88,7 +88,7 @@ public class GuestCountParser {
             String cleaned = found.replaceAll("\\s+", "");
 
             if (cleaned.contains("+")) {
-                // e.g. "5+2" => sum=7
+                // "5+2" goes to sum, so 7
                 String[] parts = cleaned.split("\\+");
                 int sum = 0;
                 for (String p : parts) {
@@ -97,7 +97,7 @@ public class GuestCountParser {
                 results.add(sum);
 
             } else if (cleaned.contains("-")) {
-                // e.g. "15-17" => 15,16,17
+                // "15-17" goes to 15,16,17
                 String[] parts = cleaned.split("-");
                 int start = Integer.parseInt(parts[0]);
                 int end = Integer.parseInt(parts[1]);
@@ -108,7 +108,7 @@ public class GuestCountParser {
                 }
 
             } else if (cleaned.contains("/")) {
-                // e.g. "4/6" => 4,6
+                // "4/6" goes to 4,6
                 String[] parts = cleaned.split("/");
                 int first = Integer.parseInt(parts[0]);
                 int second = Integer.parseInt(parts[1]);
