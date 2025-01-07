@@ -2,7 +2,6 @@ package ge.tbc.testautomation;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
@@ -17,7 +16,7 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu", "--window-size=1366,728");
+//        options.addArguments("--headless", "--disable-gpu", "--window-size=1366,728");
         WebDriverRunner.setWebDriver(new ChromeDriver(options));
         Configuration.browserCapabilities = options;
         Configuration.browser = "chrome";
@@ -30,7 +29,7 @@ public class BaseTest {
         getWebDriver().quit();
     }
 
-    @AfterClass()
+    @AfterSuite()
     public void tearDownClass() {
         sfa.assertAll();
     }
