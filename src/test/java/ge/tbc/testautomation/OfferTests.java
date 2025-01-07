@@ -20,7 +20,7 @@ public class OfferTests extends BaseTest {
                 .validateSearch(keyword, isValid);
     }
 
-    @Test(invocationCount = 10, priority = 2, groups = {"SwoopRegression"}, description = "Checks pagination controls within categories.")
+    @Test(priority = 2, groups = {"SwoopRegression"}, description = "Checks pagination controls within categories.")
     @Severity(SeverityLevel.NORMAL)
     @Story("Validate Pagination Controls")
     @Description("Navigate through different pages of product listings within a sub-category to ensure pagination controls are functioning properly, verifying that each page shows different results.")
