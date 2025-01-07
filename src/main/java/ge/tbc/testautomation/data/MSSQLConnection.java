@@ -1,4 +1,4 @@
-package ge.tbc.testautomation.data;
+package ge.tbc.testautomation.data; // creating conflict 2
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
