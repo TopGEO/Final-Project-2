@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class OfferTests extends BaseTest {
     SwoopSteps swoopSteps = new SwoopSteps(sfa);
 
-    @Test(priority = 1, groups = {"SwoopRegression"}, dataProviderClass = DProvider.class, dataProvider = "searchKeywords", description = "Tests both valid and invalid search keywords.")
+    @Test(priority   = 1, groups = {"SwoopRegression"}, dataProviderClass = DProvider.class, dataProvider = "searchKeywords", description = "Tests both valid and invalid search keywords.")
     @Severity(SeverityLevel.NORMAL)
     @Story("Verify Search Functionality")
     @Description("Perform searches with both valid and invalid keywords. Validate that results match the query for valid keywords and a 'No Results Found' message appears for invalid ones.")
