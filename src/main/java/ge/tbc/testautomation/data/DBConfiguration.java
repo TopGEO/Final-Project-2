@@ -1,4 +1,4 @@
-package ge.tbc.testautomation.data; // creating conflict 2
+package ge.tbc.testautomation.data;
 
 import java.io.IOException;
 import java.io.InputStream;
