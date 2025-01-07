@@ -13,14 +13,11 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 public class BaseTest {
     public SoftAssert sfa = new SoftAssert();
 
-    // Using a single WebDriver instance across multiple tests can lead to state leakage
-    // So we will use BeforeMethod and AfterMethod (also, its required in homework)
+    // we will use BeforeMethod and AfterMethod (its required in homework)
     @BeforeMethod
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1366,728");
+        options.addArguments("--headless", "--disable-gpu", "--window-size=1366,728");
         WebDriverRunner.setWebDriver(new ChromeDriver(options));
         Configuration.browserCapabilities = options;
         Configuration.browser = "chrome";
