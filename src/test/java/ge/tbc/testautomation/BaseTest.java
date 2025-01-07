@@ -25,12 +25,6 @@ public class BaseTest {
         Configuration.timeout = 10000;
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        getWebDriver().quit();
-    }
-
-    @AfterSuite()
     @AfterClass(alwaysRun = true) // after class is needed, since testng.xml's filtering ignores if its AfterSuite
     public void tearDownClass() {
         sfa.assertAll();
