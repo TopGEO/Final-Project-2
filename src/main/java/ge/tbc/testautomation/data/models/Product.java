@@ -1,4 +1,4 @@
-    package ge.tbc.testautomation.models;
+    package ge.tbc.testautomation.data.models;
 
     import java.util.Objects;
 
