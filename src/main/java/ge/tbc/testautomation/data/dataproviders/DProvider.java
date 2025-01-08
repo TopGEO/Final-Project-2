@@ -1,4 +1,4 @@
-package ge.tbc.testautomation.data.dataprovider;
+package ge.tbc.testautomation.data.dataproviders;
 import org.testng.annotations.DataProvider;
 
 public class DProvider {

@@ -1,6 +1,6 @@
 package ge.tbc.testautomation;
 
-import ge.tbc.testautomation.data.dataprovider.DProvider;
+import ge.tbc.testautomation.data.dataproviders.DProvider;
 import ge.tbc.testautomation.steps.SwoopSteps;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class OfferTests extends BaseTest {
     SwoopSteps swoopSteps = new SwoopSteps(sfa);
 
-    @Test(priority = 1, groups = {"SwoopRegression"}, dataProviderClass = DProvider.class, dataProvider = "searchKeywords", description = "Tests both valid and invalid search keywords.")
+    @Test(priority = 1, groups = {"SwoopRegression"}, dataProviderClass = DProvider.class, dataProvider = "searchKeywords")
     @Severity(SeverityLevel.NORMAL)
     @Story("Verify Search Functionality")
     @Description("Perform searches with both valid and invalid keywords. Validate that results match the query for valid keywords and a 'No Results Found' message appears for invalid ones.")
@@ -20,7 +20,7 @@ public class OfferTests extends BaseTest {
                 .validateSearch(keyword, isValid);
     }
 
-    @Test(priority = 2, groups = {"SwoopRegression"}, description = "Checks pagination controls within categories.")
+    @Test(priority = 2, groups = {"SwoopRegression"})
     @Severity(SeverityLevel.NORMAL)
     @Story("Validate Pagination Controls")
     @Description("Navigate through different pages of product listings within a sub-category to ensure pagination controls are functioning properly, verifying that each page shows different results.")
@@ -32,7 +32,7 @@ public class OfferTests extends BaseTest {
                 .validateBackAndNextButtons();
     }
 
-    @Test(priority = 3, groups = {"SwoopRegression"}, description = "Validates map navigation for offer locations.")
+    @Test(priority = 3, groups = {"SwoopRegression"})
     @Severity(SeverityLevel.NORMAL)
     @Story("Check Offer Location Mapping")
     @Description("Click the location button on an offer to ensure the interface correctly scrolls to and displays the map section.")
@@ -43,7 +43,7 @@ public class OfferTests extends BaseTest {
                 .validateLocationButton();
     }
 
-    @Test(priority = 4, groups = {"SwoopRegression"}, description = "Tests the 'Number of Guests' filter in Eat & Drink category.")
+    @Test(priority = 4, groups = {"SwoopRegression"})
     @Severity(SeverityLevel.NORMAL)
     @Story("Test Guest Number Filter on Offers")
     @Description("Apply the 'Number of Guests' filter and verify that the filtered offers match the selected criteria in their descriptions.")
@@ -53,7 +53,7 @@ public class OfferTests extends BaseTest {
                 .validateGuestsFilter();
     }
 
-    @Test(priority = 5, groups = {"SwoopRegression"}, description = "Ensures functionality of language switching.")
+    @Test(priority = 5, groups = {"SwoopRegression"})
     @Severity(SeverityLevel.NORMAL)
     @Story("Ensure Language Switch Functionality")
     @Description("Switch between English and Georgian languages and validate that all user interface texts and labels update accordingly.")
