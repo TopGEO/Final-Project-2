@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class ProductsScraper {
 
+    // alternatively, we can also do it by RestAssured, but i decided to do RA in another branch and here im doing ProductsScrapping as i did before in previous homeworks
     public static List<Product> getProducts(ElementsCollection productElements) {
         List<Product> fetchedProducts = new ArrayList<>();
 
