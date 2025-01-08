@@ -2,7 +2,7 @@ package ge.tbc.testautomation.util;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import ge.tbc.testautomation.models.Product;
+import ge.tbc.testautomation.data.models.Product;
 
 import java.util.ArrayList;
 import java.util.Comparator;

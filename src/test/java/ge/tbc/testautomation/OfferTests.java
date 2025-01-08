@@ -1,6 +1,6 @@
 package ge.tbc.testautomation;
 
-import ge.tbc.testautomation.dataprovider.DProvider;
+import ge.tbc.testautomation.data.dataprovider.DProvider;
 import ge.tbc.testautomation.steps.SwoopSteps;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;

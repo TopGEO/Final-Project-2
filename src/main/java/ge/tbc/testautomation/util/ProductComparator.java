@@ -1,6 +1,6 @@
 package ge.tbc.testautomation.util;
 
-import ge.tbc.testautomation.models.Product;
+import ge.tbc.testautomation.data.models.Product;
 
 import java.util.HashSet;
 import java.util.List;
