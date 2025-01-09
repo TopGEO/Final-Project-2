@@ -13,7 +13,7 @@ import static ge.tbc.testautomation.data.LoginConstants.STANDART_USER;
 @Epic("Testing Login Functionalities")
 @Feature("SauceDemo Login Functionality Tests")
 public class LoginTests extends BaseTest {
-    LoginSteps loginSteps = new LoginSteps(sfa);
+    LoginSteps loginSteps = new LoginSteps();
 
     @Test(priority = 1, groups = {"SauceDemoLogin"})
     @Story("Successful Login Validation")
@@ -21,7 +21,8 @@ public class LoginTests extends BaseTest {
     public void successfulLoginTest() {
         loginSteps.openLoginPage()
                 .login(STANDART_USER)
-                .imagesLoadValidation();
+                .imagesLoadValidation()
+                .checkSoftAssert();
     }
 
     @Test(priority = 2, groups = {"SauceDemoLogin"})
@@ -31,7 +32,8 @@ public class LoginTests extends BaseTest {
         loginSteps.openLoginPage()
                 .login(LOCKED_OUT_USER)
                 .messageAppearanceValidation()
-                .closeButtonValidation();
+                .closeButtonValidation()
+                .checkSoftAssert();
     }
 
     @Test(priority = 3, groups = {"SauceDemoLogin"})
@@ -41,6 +43,7 @@ public class LoginTests extends BaseTest {
         loginSteps.openLoginPage()
                 .login(STANDART_USER)
                 .logout()
-                .inputFieldsEmptinessValidation();
+                .inputFieldsEmptinessValidation()
+                .checkSoftAssert();
     }
 }

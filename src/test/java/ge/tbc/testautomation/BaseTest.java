@@ -2,14 +2,13 @@ package ge.tbc.testautomation;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
 
 public class BaseTest {
-    public SoftAssert sfa = new SoftAssert();
-
     // we will use BeforeMethod and AfterMethod (its required in homework)
     // 'alwaysRun = true' tells TestNG that "even if im filtering test methods by group, run this @BeforeMethod anyway"
     @BeforeMethod(alwaysRun = true)
@@ -21,15 +20,14 @@ public class BaseTest {
         Configuration.browser = "chrome";
         WebDriverRunner.getWebDriver().manage().window().maximize();
         Configuration.timeout = 10000;
+        SelenideLogger.addListener("AllureSelenide",
+                new AllureSelenide()
+                        .screenshots(true)
+                        .savePageSource(true));
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         WebDriverRunner.getWebDriver().quit();
-    }
-
-    @AfterClass(alwaysRun = true) // after class is needed, since testng.xml's filtering ignores if its AfterSuite
-    public void tearDownClass() {
-        sfa.assertAll();
     }
 }

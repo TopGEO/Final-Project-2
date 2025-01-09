@@ -4,7 +4,6 @@ import com.codeborne.selenide.SelenideElement;
 import ge.tbc.testautomation.data.MSSQLConnection;
 import ge.tbc.testautomation.pages.LoginPages;
 import io.qameta.allure.Step;
-import org.testng.asserts.SoftAssert;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,13 +15,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static ge.tbc.testautomation.data.LoginConstants.*;
 import static ge.tbc.testautomation.util.Utils.*;
 
-public class LoginSteps {
+public class LoginSteps extends CommonSteps<LoginSteps> {
     LoginPages loginPages = new LoginPages();
-    SoftAssert sfa;
-
-    public LoginSteps(SoftAssert sfa) {
-        this.sfa = sfa;
-    }
 
     @Step("Opening saucedemo's website.")
     public LoginSteps openLoginPage() {
