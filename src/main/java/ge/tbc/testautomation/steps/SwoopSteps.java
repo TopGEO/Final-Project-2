@@ -20,13 +20,8 @@ import static ge.tbc.testautomation.util.ProductComparator.*;
 import static ge.tbc.testautomation.util.GuestCountParser.parseGuestCount;
 import static ge.tbc.testautomation.util.Utils.*;
 
-public class SwoopSteps {
+public class SwoopSteps extends CommonSteps<SwoopSteps> {
     SwoopPages swoopPages = new SwoopPages();
-    SoftAssert sfa;
-
-    public SwoopSteps(SoftAssert sfa) {
-        this.sfa = sfa;
-    }
 
     @Step("Opening swoop's website.")
     public SwoopSteps openSwoopPage() {

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 @Epic("Website Functionality Testing")
 @Feature("Offer Management Tests")
 public class OfferTests extends BaseTest {
-    SwoopSteps swoopSteps = new SwoopSteps(sfa);
+    SwoopSteps swoopSteps = new SwoopSteps();
 
     @Test(priority = 1, groups = {"SwoopRegression"}, dataProviderClass = DProvider.class, dataProvider = "searchKeywords")
     @Severity(SeverityLevel.NORMAL)
@@ -17,7 +17,8 @@ public class OfferTests extends BaseTest {
     public void searchTest(String keyword, boolean isValid) {
         swoopSteps.openSwoopPage()
                 .clickAgreeButton()
-                .validateSearch(keyword, isValid);
+                .validateSearch(keyword, isValid)
+                .checkSoftAssert();
     }
 
     @Test(priority = 2, groups = {"SwoopRegression"})
@@ -29,7 +30,8 @@ public class OfferTests extends BaseTest {
                 .clickAgreeButton()
                 .goToSubCategory()
                 .validateProductsChange()
-                .validateBackAndNextButtons();
+                .validateBackAndNextButtons()
+                .checkSoftAssert();
     }
 
     @Test(priority = 3, groups = {"SwoopRegression"})
@@ -40,7 +42,8 @@ public class OfferTests extends BaseTest {
         swoopSteps.openSwoopPage()
                 .clickAgreeButton()
                 .goToSubCategory()
-                .validateLocationButton();
+                .validateLocationButton()
+                .checkSoftAssert();
     }
 
     @Test(priority = 4, groups = {"SwoopRegression"})
@@ -50,7 +53,8 @@ public class OfferTests extends BaseTest {
     public void numberOfGuestsTest() {
         swoopSteps.openSwoopPage()
                 .clickAgreeButton()
-                .validateGuestsFilter();
+                .validateGuestsFilter()
+                .checkSoftAssert();
     }
 
     @Test(priority = 5, groups = {"SwoopRegression"})
@@ -60,6 +64,7 @@ public class OfferTests extends BaseTest {
     public void changeLanguageTest() {
         swoopSteps.openSwoopPage()
                 .clickAgreeButton()
-                .validateLanguageChange();
+                .validateLanguageChange()
+                .checkSoftAssert();
     }
 }
