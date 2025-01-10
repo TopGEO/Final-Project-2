@@ -81,5 +81,10 @@
             <artifactId>axe-selenium</artifactId>
             <version>3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>3.10.0</version>
+        </dependency>
     </dependencies>
 </project>

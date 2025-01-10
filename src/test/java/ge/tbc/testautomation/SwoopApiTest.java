@@ -17,7 +17,7 @@ import static ge.tbc.testautomation.data.SwoopConstants.*;
 
 @Epic("Swoop Offers API")
 @Feature("Restaurant Offers")
-public class SwoopApiTest {
+public class SwoopApiTest extends BaseWireMockTest {
     RASwoopSteps swoopSteps = new RASwoopSteps();
     SoftAssert sfa = new SoftAssert();
 
@@ -41,6 +41,7 @@ public class SwoopApiTest {
         for (Offer offer : response.getOffers()) {
             sfa.assertNotNull(offer.getId(), OFFER_ID_NULL_ERROR);
             sfa.assertNotNull(offer.getName(), OFFERS_NAME_EMPTY_ERROR);
+            System.out.println(offer.getName());
         }
 
         sfa.assertTrue(response.getPagination().getCurrentPage() == 1 && offers.size() == 24);
