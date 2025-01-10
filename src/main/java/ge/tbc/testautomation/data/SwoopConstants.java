@@ -1,5 +1,6 @@
 package ge.tbc.testautomation.data;
 
+import java.net.URL;
 import java.util.List;
 
 public class SwoopConstants {
@@ -17,6 +18,14 @@ public class SwoopConstants {
     public static String PAGINATION_ERROR = "Default page should be 1 (if not specified otherwise)";
     public static String OFFER_ID_NULL_ERROR = "Offer ID should not be null";
     public static String OFFERS_NAME_EMPTY_ERROR = "Offer name should not be null";
+    public static final String NO_VIOLATIONS_FOUND = "No accessibility violations found.";
+    public static final String VIOLATION_HEADER = "Violation: ";
+    public static final String DESCRIPTION_HEADER = "Description: ";
+    public static final String IMPACT_HEADER = "Impact: ";
+    public static final String NODES_AFFECTED_HEADER = "Nodes affected: ";
+    public static final String MESSAGES_SEPARATOR = "----------------------------------------";
+    public static final String FAIL_MESSAGE_PREFIX = " accessibility violation(s) found.";
+
 
 
     public static String FAILED_PRODUCTS_MESSAGE(int minRange, int maxRange, List<String> failedProducts) {

@@ -1,25 +1,35 @@
 package ge.tbc.testautomation.steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.deque.axe.AXE;
 import ge.tbc.testautomation.data.models.Product;
 import ge.tbc.testautomation.pages.SwoopPages;
 import io.qameta.allure.Step;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.testng.asserts.SoftAssert;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Selenide.*;
 import static ge.tbc.testautomation.data.SwoopConstants.*;
+import static ge.tbc.testautomation.util.ImageComparison.compareImages;
 import static ge.tbc.testautomation.util.LanguageDetector.checkLang;
 import static ge.tbc.testautomation.util.LanguageDetector.getMainTexts;
 import static ge.tbc.testautomation.util.ProductsScraper.getProducts;
 import static ge.tbc.testautomation.util.ProductComparator.*;
 import static ge.tbc.testautomation.util.GuestCountParser.parseGuestCount;
 import static ge.tbc.testautomation.util.Utils.*;
+import static org.testng.Assert.assertTrue;
 
+// for OfferTests and for Visual and Accessibility tests
 public class SwoopSteps extends CommonSteps<SwoopSteps> {
     SwoopPages swoopPages = new SwoopPages();
 
@@ -194,6 +204,58 @@ public class SwoopSteps extends CommonSteps<SwoopSteps> {
 
         sfa.assertTrue(checkLang(textsKa, true));
         sfa.assertTrue(checkLang(textsEn, false)); // false means English, as default.
+
+        return this;
+    }
+
+    @Step("Checking accessibility features for swoop")
+    public SwoopSteps validatePageAccessibility() {
+        // here we will check how well did developers fit this website to people with disabilities
+        WebDriver driver = Selenide.webdriver().driver().getWebDriver();
+
+        // load axe.min.js from resources and run accessibility analysis
+        JSONObject responseJSON = new AXE.Builder(driver, getClass().getResource("/axe.min.js")).analyze();
+        JSONArray violations = responseJSON.getJSONArray("violations");
+
+        int validationsLenth = violations.length();
+        if (validationsLenth == 0) {
+            System.out.println(NO_VIOLATIONS_FOUND);
+        } else {
+            for (int i = 0; i < validationsLenth; i++) {
+                JSONObject violation = violations.getJSONObject(i);
+                System.out.println(VIOLATION_HEADER + violation.getString("help"));
+                System.out.println(DESCRIPTION_HEADER + violation.getString("description"));
+                System.out.println(IMPACT_HEADER + violation.getString("impact"));
+                System.out.println(NODES_AFFECTED_HEADER + violation.getJSONArray("nodes").toString());
+                System.out.println(MESSAGES_SEPARATOR);
+            }
+            sfa.fail(validationsLenth + FAIL_MESSAGE_PREFIX);
+        }
+
+        return this;
+    }
+
+    @Step("Capturing screens before&after language switch")
+    public SwoopSteps validateVisualChange() throws IOException {
+        // very simple presentation of visual testing, just checking differences, nothing serious but just found out for myself what was visual testing about, generally.
+        swoopPages.cartButton.click();
+
+        String beforeStartPath = Selenide.screenshot("before_start").replace("file:", "").trim();;
+        assert beforeStartPath != null;
+        File beforeImage = new File(beforeStartPath).getAbsoluteFile();
+
+        swoopPages.languageChangeButton.click();
+        swoopPages.changeToEnglish.click();
+
+        String afterLoadPath = Selenide.screenshot("after_loading").replace("file:", "").trim();
+        assert afterLoadPath != null;
+        File afterImage = new File(afterLoadPath).getAbsoluteFile();
+
+        boolean imagesAreEqual = compareImages(beforeImage, afterImage);
+        beforeImage.delete();
+        afterImage.delete();
+
+        sfa.assertFalse(imagesAreEqual);
 
         return this;
     }

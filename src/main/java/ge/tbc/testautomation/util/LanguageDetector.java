@@ -53,6 +53,7 @@ public class LanguageDetector {
 
     public static Set<String> getMainTexts(SelenideElement mainDivSelector) {
         Set<String> texts = new HashSet<>();
+        // im taking main tags for UI texts and it will check if language for checking has 80% of it's alphabet.
         String[] tags = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "a", "li"};
 
         // Add the placeholder text if available

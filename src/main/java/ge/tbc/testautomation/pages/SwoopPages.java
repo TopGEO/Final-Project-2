@@ -34,4 +34,5 @@ public class SwoopPages {
     public SelenideElement languageChangeButton = $("div[aria-haspopup=\"menu\"]");
     public SelenideElement changeToEnglish = $x("//button//p[text()=\"English\"]");
     public SelenideElement mainDiv = $("#__next");
+    public SelenideElement cartButton = $("img[src=\"/icons/basket-black.svg\"]");
 }
