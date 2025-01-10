@@ -4,16 +4,19 @@
 
     public class Product {
         private String name;
+        private String provider;
         private String price;
         private String link;
 
-        public Product(String name, String price, String link) {
+        public Product(String name, String provider, String price, String link) {
             this.name = name;
+            this.provider = provider;
             this.price = price;
             this.link = link;
         }
 
         public String getName() { return name; }
+        public String getProvider() { return provider; }
         public String getPrice() { return price; }
         public String getLink() { return link; }
 
@@ -24,17 +27,18 @@
 
             Product product = (Product) o;
             return Objects.equals(name, product.name) &&
+                    Objects.equals(provider, product.provider) &&
                     Objects.equals(price, product.price) &&
                     Objects.equals(link, product.link);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, price, link);
+            return Objects.hash(name, provider, price, link);
         }
 
         @Override
         public String toString() {
-            return "Product{name='" + name + "', price='" + price + "', link='" + link + "'}";
+            return "Product{name='" + name + "', provider='" + provider + "', price='" + price + "', link='" + link + "'}";
         }
     }
