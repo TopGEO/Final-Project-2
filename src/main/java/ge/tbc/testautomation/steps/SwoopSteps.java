@@ -62,7 +62,7 @@ public class SwoopSteps extends CommonSteps<SwoopSteps> {
             for (Product product : products) {
                 String name = product.getName().toLowerCase();
                 String provider = product.getProvider().toLowerCase();
-                String searchKeyword = keyword.toLowerCase()gi;
+                String searchKeyword = keyword.toLowerCase();
 
                 if (!name.contains(searchKeyword) && !provider.contains(searchKeyword)) {
                     failedProducts.add(String.format(FAILED_PRODUCT_MESSAGE_TEMPLATE,
