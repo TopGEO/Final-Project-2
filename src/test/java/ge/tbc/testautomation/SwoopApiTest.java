@@ -15,7 +15,6 @@ import static ge.tbc.testautomation.data.SwoopConstants.*;
 
 // Dear mentor, just a heads up, i have made these RestAssured tests using Alina's example from her GitHub page, i hope its okay 😄 Btw, the repo is public, so all is in plain sight!
 
-
 @Epic("Swoop Offers API")
 @Feature("Restaurant Offers")
 public class SwoopApiTest {
@@ -44,7 +43,7 @@ public class SwoopApiTest {
             sfa.assertNotNull(offer.getName(), OFFERS_NAME_EMPTY_ERROR);
         }
 
-        sfa.assertTrue(response.getPagination().getCurrentPage()==1 && offers.size()==24);
+        sfa.assertTrue(response.getPagination().getCurrentPage() == 1 && offers.size() == 24);
 
         sfa.assertAll();
     }

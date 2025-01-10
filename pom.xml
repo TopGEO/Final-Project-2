@@ -76,5 +76,10 @@
             <artifactId>allure-selenide</artifactId>
             <version>2.27.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.deque</groupId>
+            <artifactId>axe-selenium</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
 </project>
