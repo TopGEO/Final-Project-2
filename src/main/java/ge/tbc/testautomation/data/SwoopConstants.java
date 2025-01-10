@@ -25,6 +25,10 @@ public class SwoopConstants {
     public static final String NODES_AFFECTED_HEADER = "Nodes affected: ";
     public static final String MESSAGES_SEPARATOR = "----------------------------------------";
     public static final String FAIL_MESSAGE_PREFIX = " accessibility violation(s) found.";
+    public static final String FAILED_PRODUCT_MESSAGE_TEMPLATE =
+            "Product [Name: %s, Provider: %s] does not contain keyword '%s'";
+    public static final String PRODUCTS_DID_NOT_MATCH = "Some products did not match the search criteria: ";
+
 
 
 

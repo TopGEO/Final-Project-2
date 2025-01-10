@@ -23,13 +23,16 @@ public class ProductsScraper {
                 // Extract product name
                 String name = productElement.$("h4[class*=\"font-tbcx-medium\"]").getText();
 
+                // Extract product provider
+                String provider = productElement.$("div[class*='font-tbcx-regular'][class*='line-clamp-1']").getText();
+
                 // Extract product price
                 String price = productElement.$("h4[class*=\"font-tbcx-bold\"]").getText();
 
                 // Extract product link
                 String link = productElement.getAttribute("href");
 
-                Product product = new Product(name, price, link);
+                Product product = new Product(name, provider, price, link);
                 fetchedProducts.add(product);
 
             } catch (Exception e) {

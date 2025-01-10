@@ -47,14 +47,41 @@ public class SwoopSteps extends CommonSteps<SwoopSteps> {
         return this;
     }
 
-    @Step("Validating valid and invalid searchs from dataprovider")
+    @Step("Validating valid and invalid searches from dataprovider")
     public SwoopSteps validateSearch(String keyword, boolean isValid) {
         $("input").setValue(keyword).pressEnter();
+
         if (isValid) {
-            sfa.assertTrue(swoopPages.productsDiv.shouldBe(Condition.visible, Duration.ofSeconds(10)).exists(), VALID_SEARCH_FAILED);
+            boolean productsVisible = swoopPages.productsDiv.shouldBe(Condition.visible, Duration.ofSeconds(10)).exists();
+            sfa.assertTrue(productsVisible, VALID_SEARCH_FAILED);
+
+            List<Product> products = getProducts(swoopPages.productElements.shouldHave(sizeGreaterThan(0)));
+
+            List<String> failedProducts = new ArrayList<>();
+
+            for (Product product : products) {
+                String name = product.getName().toLowerCase();
+                String provider = product.getProvider().toLowerCase();
+                String searchKeyword = keyword.toLowerCase()gi;
+
+                if (!name.contains(searchKeyword) && !provider.contains(searchKeyword)) {
+                    failedProducts.add(String.format(FAILED_PRODUCT_MESSAGE_TEMPLATE,
+                            product.getName(), product.getProvider(), keyword));
+                }
+            }
+
+            sfa.assertEquals(failedProducts.size(), 0,
+                    PRODUCTS_DID_NOT_MATCH + failedProducts.toString());
+
         } else {
-            sfa.assertTrue(!swoopPages.productsDiv.shouldBe(Condition.disappear, Duration.ofSeconds(10)).exists(), INVALID_SEARCH_FAILED);
-            sfa.assertTrue(swoopPages.noResultFound.shouldBe(Condition.visible, Duration.ofSeconds(10)).exists());
+            // For invalid searches, assert that no products are visible and "No Results" message appears
+            boolean productsNotVisible = !swoopPages.productsDiv
+                    .shouldBe(Condition.disappear, Duration.ofSeconds(10))
+                    .exists();
+            sfa.assertTrue(productsNotVisible, INVALID_SEARCH_FAILED);
+            sfa.assertTrue(swoopPages.noResultFound
+                    .shouldBe(Condition.visible, Duration.ofSeconds(10))
+                    .exists());
         }
 
         return this;
